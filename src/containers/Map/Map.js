@@ -1,8 +1,9 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { GoogleMap, LoadScript, MarkerClusterer, Marker, InfoWindow } from '@react-google-maps/api'
 import InfoMessage from './InfoMessage';
 import Aux from '../../hoc/auxiliary'
-
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions/index'
 
 
 
@@ -18,7 +19,7 @@ const options = {
 };
 
 
-function Map() {
+function Map(props) {
 
     const [mapRef, setMapRef] = useState(null);
     const [selectedPlace, setSelectedPlace] = useState(null);
@@ -27,6 +28,11 @@ function Map() {
     const [zoom, setZoom] = useState(5);
     const [clickedLatLng, setClickedLatLng] = useState(null);
     const [infoOpen, setInfoOpen] = useState(false);
+
+    useEffect(() => {
+        props.onFetchMarkers();
+    });
+
 
     const mapContainerStyle = {
         height: "800px",
@@ -96,4 +102,14 @@ function Map() {
     )
 }
 
-export default Map;
+const mapStateToProps = state => {
+    return {
+        markers: state.markerInfo
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchMarkers: () => dispatch(actions.fetchMarker())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

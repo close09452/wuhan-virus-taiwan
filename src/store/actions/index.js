@@ -1,0 +1,3 @@
+export {
+    fetchMarker
+} from './marker'
