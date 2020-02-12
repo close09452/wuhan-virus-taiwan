@@ -7,10 +7,10 @@ export const fetchMarkerInit = () => {
     }
 }
 
-export const fetchMarkerSuccess = (markers) => {
+export const fetchMarkerSuccess = (markersInfo) => {
     return {
         type: actionTypes.FETCH_MARKERSINFO_SUCCESS,
-        markers: markers
+        markersInfo: markersInfo
     }
 }
 
@@ -39,7 +39,7 @@ export const fetchMarker = () => {
                         id: key
                     });
                 }
-                console.log(res.data);
+                console.log(fetchMarkers);
                 dispatch(fetchMarkerSuccess(fetchMarkers));
             })
             .catch(err => {

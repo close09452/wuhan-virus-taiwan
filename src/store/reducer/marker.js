@@ -8,12 +8,14 @@ const initialState = {
 const markerStart = (state, action) => {
     return {
         state,
+        markersInfo: [],
         loading: true
     }
 }
 const markerSuccess = (state, action) => {
     return {
         state,
+        markersInfo: action.markersInfo,
         loading: false
     }
 }
