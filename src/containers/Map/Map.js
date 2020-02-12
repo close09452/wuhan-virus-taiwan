@@ -29,11 +29,19 @@ function Map(props) {
     const [zoom, setZoom] = useState(5);
     const [clickedLatLng, setClickedLatLng] = useState(null);
     const [infoOpen, setInfoOpen] = useState(false);
-    const [caseInfos, setCaseInfos] = useState({});
+    const [init, setInit] = useState(false);
 
     useEffect(() => {
+        console.log('Fetch marker');
         props.onFetchMarkers();
     }, []);
+
+    const loadHandler = map => {
+        // Store a reference to the google map instance in state
+        setMapRef(map);
+
+        console.log('load');
+    }
 
 
     const mapContainerStyle = {
@@ -41,16 +49,20 @@ function Map(props) {
         width: "1200px"
     };
 
-    // We have to create a mapping of our places to actual Marker objects
-    const markerLoadHandler = (marker, place) => {
+    // We have to create a mapping of our infos to actual Marker objects
+    const markerLoadHandler = (marker, info) => {
         return setMarkerMap(prevState => {
-            return { ...prevState, [place.id]: marker };
+            return { ...prevState, [info.id]: marker };
         });
     };
 
-    const markerClickHandler = (event, place) => {
-        // Remember which place was clicked
-        setSelectedPlace(place);
+    const markerClickHandler = (event, info) => {
+        const mapInfo = { ...mapRef };
+        console.log(mapInfo.center);
+        console.log(mapInfo);
+        setZoom(mapInfo.zoom);
+        // Remember which info was clicked
+        setSelectedPlace(info);
 
         // Required so clicking a 2nd marker works as expected
         if (infoOpen) {
@@ -59,57 +71,58 @@ function Map(props) {
 
         setInfoOpen(true);
 
+        console.log(zoom);
         // If you want to zoom in a little on marker click
-        if (zoom < 13) {
+        if (mapInfo.zoom < 13) {
             setZoom(13);
         }
 
         // if you want to center the selected Marker
-        setCenter(place.position)
+        setCenter(info.position)
     };
-    console.log(props);
+
     let map = <Spinner />;
-    if (!props.loading) {
-        setCaseInfos(props.markers);
+
+
+    if (props.marker !== []) {
+        const markers = props.markers;
+        map = markers.map(info => (
+            <Marker
+                key={info.id}
+                onLoad={marker => markerLoadHandler(marker, info)}
+                position={info.position}
+                onClick={marker => markerClickHandler(marker, info)}
+            />
+        ))
     }
     return (
-        // <LoadScript>
-        //     <GoogleMap
-        //         id="marker-example"
-        //         googleMapsApiKey="AIzaSyDxsc0P3yUrLchOaaxLWrgK8YyR78zsED0"
-        //         mapContainerStyle={mapContainerStyle}
-        //         zoom={zoom}
-        //         center={center}
-        //     >
 
-        //         {
-        //             caseInfos.map(info => (
-        //                 <Marker
-        //                     key={info.id}
-        //                     onLoad={marker => markerLoadHandler(marker, info)}
-        //                     position={info.position}
-        //                     onClick={marker => markerClickHandler(marker, info)}
-        //                 />
-        //             ))
-        //         }
-        //         {
-        //             infoOpen && (
-        //                 <InfoWindow
-        //                     anchor={markerMap[selectedPlace.id]}
-        //                     onCloseClick={() => setInfoOpen(false)}
-        //                 >
-        //                     <div>
-        //                         <h3>{selectedPlace.id}</h3>
-        //                         <div>{selectedPlace.content}</div>
-        //                     </div>
-        //                 </InfoWindow>
-        //             )}
-        //     </GoogleMap>
-        // </LoadScript>
-
-        <div>
-            {map}
-        </div>
+        <LoadScript
+            id="script-loader"
+            googleMapsApiKey="AIzaSyDxsc0P3yUrLchOaaxLWrgK8YyR78zsED0">
+            <GoogleMap
+                onLoad={loadHandler}
+                id="marker-example"
+                mapContainerStyle={mapContainerStyle}
+                zoom={zoom}
+                center={center}
+            >
+                {map}
+                {
+                    infoOpen && (
+                        <InfoWindow
+                            anchor={markerMap[selectedPlace.id]}
+                            onCloseClick={() => setInfoOpen(false)}
+                        >
+                            <div>
+                                <h3>{selectedPlace.id}</h3>
+                                <div>{selectedPlace.content}</div>
+                            </div>
+                        </InfoWindow>
+                    )
+                }
+            </GoogleMap>
+        </LoadScript>
     )
 }
 
