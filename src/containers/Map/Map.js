@@ -1,17 +1,17 @@
 import React, { useState, Fragment, useEffect } from 'react'
 import { GoogleMap, LoadScript, MarkerClusterer, Marker, InfoWindow } from '@react-google-maps/api'
-import InfoMessage from './InfoMessage';
 import Aux from '../../hoc/auxiliary'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 import Spinner from '../../components/UI/Spinner/Spinner'
+import styled from './Map.module.css'
 
 
 
 const info = '2/9-從武漢感染搭機回台(已隔離)'
 
 // const caseInfos = [
-//     { id: 'case0(2/6)', position: { lat: 22.616, lng: 120.301 }, content: '(46歲男)香港轉機確診' },
+//     { id: 0,places:"高雄市",date:, position: { lat: 22.616, lng: 120.301 }, content: '(46歲男)香港轉機確診' ,note:"已痊癒"},
 //     { id: 'case1(2/6)', position: { lat: 23.617, lng: 120.300 }, content: '(50歲女)香港轉機確診' }
 // ];
 
@@ -45,8 +45,8 @@ function Map(props) {
 
 
     const mapContainerStyle = {
-        height: "800px",
-        width: "1200px"
+        height: "100vh",
+        width: "70vw"
     };
 
     // We have to create a mapping of our infos to actual Marker objects
@@ -58,7 +58,6 @@ function Map(props) {
 
     const markerClickHandler = (event, info) => {
         const mapInfo = { ...mapRef };
-        console.log(mapInfo.center);
         console.log(mapInfo);
         setZoom(mapInfo.zoom);
         // Remember which info was clicked
@@ -96,33 +95,35 @@ function Map(props) {
         ))
     }
     return (
+        <div className={styled.map}>
+            <LoadScript
+                id="script-loader"
+                googleMapsApiKey="AIzaSyDxsc0P3yUrLchOaaxLWrgK8YyR78zsED0">
+                <GoogleMap
+                    onLoad={loadHandler}
+                    id="marker-example"
+                    mapContainerStyle={mapContainerStyle}
+                    zoom={zoom}
+                    center={center}
+                >
+                    {map}
+                    {
+                        infoOpen && (
+                            <InfoWindow
+                                anchor={markerMap[selectedPlace.id]}
+                                onCloseClick={() => setInfoOpen(false)}
+                            >
+                                <div>
+                                    <h3>{selectedPlace.id}</h3>
+                                    <div>{selectedPlace.content}</div>
+                                </div>
+                            </InfoWindow>
+                        )
+                    }
+                </GoogleMap>
+            </LoadScript>
+        </div>
 
-        <LoadScript
-            id="script-loader"
-            googleMapsApiKey="AIzaSyDxsc0P3yUrLchOaaxLWrgK8YyR78zsED0">
-            <GoogleMap
-                onLoad={loadHandler}
-                id="marker-example"
-                mapContainerStyle={mapContainerStyle}
-                zoom={zoom}
-                center={center}
-            >
-                {map}
-                {
-                    infoOpen && (
-                        <InfoWindow
-                            anchor={markerMap[selectedPlace.id]}
-                            onCloseClick={() => setInfoOpen(false)}
-                        >
-                            <div>
-                                <h3>{selectedPlace.id}</h3>
-                                <div>{selectedPlace.content}</div>
-                            </div>
-                        </InfoWindow>
-                    )
-                }
-            </GoogleMap>
-        </LoadScript>
     )
 }
 

@@ -1,0 +1,6 @@
+.map{
+    height: 100vh; /* Magic here */
+    display: flex;
+    align-items: center;
+    float: left;
+  }
