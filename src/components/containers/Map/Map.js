@@ -3,7 +3,7 @@ import { GoogleMap, LoadScript, MarkerClusterer, Marker, InfoWindow } from '@rea
 import Aux from '../../hoc/auxiliary'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
-import Spinner from '../../components/Spinner/Spinner'
+import Spinner from '../../components/UI/Spinner/Spinner'
 import styled from './Map.module.css'
 
 
