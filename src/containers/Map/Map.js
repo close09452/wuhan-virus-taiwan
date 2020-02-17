@@ -1,5 +1,5 @@
-import React, { useState, Fragment, useEffect } from 'react'
-import { GoogleMap, LoadScript, MarkerClusterer, Marker, InfoWindow } from '@react-google-maps/api'
+import React, { useState, Fragment, useEffect, useContext } from 'react'
+import { GoogleMap, LoadScript, useGoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
 import Aux from '../../hoc/auxiliary'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
@@ -7,29 +7,18 @@ import Spinner from '../../components/Spinner/Spinner'
 import styled from './Map.module.css'
 
 
-
-const info = '2/9-從武漢感染搭機回台(已隔離)'
-
-// const caseInfos = [
-//     { id: 0,places:"高雄市",date:, position: { lat: 22.616, lng: 120.301 }, content: '(46歲男)香港轉機確診' ,note:"已痊癒"},
-//     { id: 'case1(2/6)', position: { lat: 23.617, lng: 120.300 }, content: '(50歲女)香港轉機確診' }
-// ];
-
 const options = {
     imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
 };
-
 
 function Map(props) {
 
     const [mapRef, setMapRef] = useState(null);
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [markerMap, setMarkerMap] = useState({});
-    const [center, setCenter] = useState({ lat: 23.600, lng: 120.832 });
-    const [zoom, setZoom] = useState(5);
     const [clickedLatLng, setClickedLatLng] = useState(null);
     const [infoOpen, setInfoOpen] = useState(false);
-    const [init, setInit] = useState(false);
+    const [useZoom, setZoom] = useState(6)
 
     useEffect(() => {
         console.log('Fetch marker');
@@ -38,9 +27,12 @@ function Map(props) {
 
     const loadHandler = map => {
         // Store a reference to the google map instance in state
-        setMapRef(map);
 
-        console.log('load');
+
+        const bounds = new window.google.maps.LatLngBounds();
+        map.fitBounds(bounds);
+        setMapRef(map);
+        console.log('load map');
     }
 
 
@@ -55,37 +47,44 @@ function Map(props) {
             return { ...prevState, [info.id]: marker };
         });
     };
+    const mapZoomHandler = () => {
+        if (props.marker !== []) {
+            const mapInfo = { ...mapRef };
+            const mapProps = {
+                zoom: mapInfo.zoom
+            }
+            //setZoom(mapInfo.zoom)
+            console.log(mapProps);
+        }
+    }
 
     const markerClickHandler = (event, info) => {
         const mapInfo = { ...mapRef };
         console.log(mapInfo);
-        setZoom(mapInfo.zoom);
         // Remember which info was clicked
         setSelectedPlace(info);
-
         // Required so clicking a 2nd marker works as expected
         if (infoOpen) {
             setInfoOpen(false);
         }
 
         setInfoOpen(true);
-
-        console.log(zoom);
-        // If you want to zoom in a little on marker click
-        if (mapInfo.zoom < 13) {
-            setZoom(13);
+        let mapProps = {
+            zoom: 13,
+            position: info.position
         }
-
-        // if you want to center the selected Marker
-        setCenter(info.position)
+        if (mapInfo.zoom < 13) {
+            console.log('zoom in');
+            props.setMapProps(mapProps);
+        }
     };
 
-    let map = <Spinner />;
 
+    let mark = <Spinner />;
 
     if (props.marker !== []) {
         const markers = props.markers;
-        map = markers.map(info => (
+        mark = markers.map(info => (
             <Marker
                 key={info.id}
                 onLoad={marker => markerLoadHandler(marker, info)}
@@ -100,13 +99,17 @@ function Map(props) {
                 id="script-loader"
                 googleMapsApiKey="AIzaSyDxsc0P3yUrLchOaaxLWrgK8YyR78zsED0">
                 <GoogleMap
+                    id="marker-wuhan-coronavirus"
                     onLoad={loadHandler}
-                    id="marker-example"
                     mapContainerStyle={mapContainerStyle}
-                    zoom={zoom}
-                    center={center}
+                    center={{ lat: props.position.lat, lng: props.position.lng }}
+                    zoom={useZoom}
+                    onZoomChanged={mapZoomHandler}
+
                 >
-                    {map}
+                    {console.log(props.zoom, props.position)}
+                    {console.log(mapRef)}
+                    {mark}
                     {
                         infoOpen && (
                             <InfoWindow
@@ -129,13 +132,16 @@ function Map(props) {
 
 const mapStateToProps = state => {
     return {
-        markers: state.markersInfo,
-        loading: state.loading
+        markers: state.markerReducer.markersInfo,
+        loading: state.markerReducer.loading,
+        zoom: state.mapPropsReducer.zoom,
+        position: state.mapPropsReducer.position
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchMarkers: () => dispatch(actions.fetchMarker())
+        onFetchMarkers: () => dispatch(actions.fetchMarker()),
+        setMapProps: (mapProps) => dispatch(actions.setMapProps(mapProps))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Map);

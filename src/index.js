@@ -8,12 +8,16 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import markerReducer from './store/reducer/marker'
+import mapPropsReducer from './store/reducer/mapProps'
 import 'bootstrap/dist/css/bootstrap.css';
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(markerReducer, composeEnhancers(
+const rootReducer = combineReducers({
+    markerReducer,
+    mapPropsReducer
+});
+const store = createStore(rootReducer, composeEnhancers(
     applyMiddleware(thunk)
 ));
 
@@ -23,7 +27,6 @@ const app = (
             <App />
         </BrowserRouter>
     </Provider>
-
 );
 ReactDOM.render(app, document.getElementById('root'));
 

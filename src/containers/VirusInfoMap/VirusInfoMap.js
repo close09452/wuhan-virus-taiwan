@@ -4,7 +4,6 @@ class VirusInfoMap extends Component {
     render() {
         return (
             <Map>
-
             </Map>
         );
     }

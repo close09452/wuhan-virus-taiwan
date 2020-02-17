@@ -7,21 +7,21 @@ const initialState = {
 
 const markerStart = (state, action) => {
     return {
-        state,
+        ...state,
         markersInfo: [],
         loading: true
     }
 }
 const markerSuccess = (state, action) => {
     return {
-        state,
+        ...state,
         markersInfo: action.markersInfo,
         loading: false
     }
 }
 const markerFail = (state, action) => {
     return {
-        state,
+        ...state,
         loading: true
     }
 }
