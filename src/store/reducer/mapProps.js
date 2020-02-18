@@ -5,6 +5,10 @@ const initalState = {
     position: {
         lat: 23.6147681,
         lng: 120.8348167
+    },
+    clickedPosition: {
+        lat: 0,
+        lng: 0
     }
 }
 
@@ -15,15 +19,18 @@ const initMapProps = (state, action) => {
     }
 }
 const setMapProps = (state, action) => {
-    console.log(state, action);
+    console.log(action);
     return {
         ...state,
         zoom: action.mapProps.zoom,
         position: {
             lat: action.mapProps.position.lat,
             lng: action.mapProps.position.lng
+        },
+        clickedPosition: {
+            lat: action.mapProps.clickedPosition.lat,
+            lng: action.mapProps.clickedPosition.lng
         }
-
     }
 }
 

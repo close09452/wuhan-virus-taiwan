@@ -39,7 +39,7 @@ export const fetchMarker = () => {
                         id: key
                     });
                 }
-                console.log(fetchMarkers);
+                console.log(res.data);
                 dispatch(fetchMarkerSuccess(fetchMarkers));
             })
             .catch(err => {
@@ -47,3 +47,38 @@ export const fetchMarker = () => {
             });
     };
 }
+
+export const updateMarkerInfo_success = (id, updateData) => {
+    return {
+        type: actionTypes.UPDATE_MARKERSINFO_SUCCESS,
+        id: id,
+        updateDate: updateData
+    }
+}
+
+export const updateMarkerInfo_fail = (error) => {
+    return {
+        type: actionTypes.UPDATE_MARKERSINFO_FAIL,
+        error: error
+    }
+}
+
+export const updateMarkerInfo_Start = () => {
+    return {
+        type: actionTypes.UPDATE_MARKERSINFO_START
+    }
+}
+
+export const updateMarkerInfo = (updateData) => {
+    return dispatch => {
+        console.log(updateData);
+        dispatch(updateMarkerInfo_Start);
+        axios.post('/markersInfo.json', updateData)
+            .then(res => {
+                dispatch(updateMarkerInfo_success(updateData.content, updateData));
+            })
+            .catch(error => {
+                dispatch(updateMarkerInfo_fail(error));
+            })
+    };
+};

@@ -18,7 +18,7 @@ function Map(props) {
     const [markerMap, setMarkerMap] = useState({});
     const [clickedLatLng, setClickedLatLng] = useState(null);
     const [infoOpen, setInfoOpen] = useState(false);
-    const [useZoom, setZoom] = useState(6)
+    const [useZoom, setZoom] = useState(8)
 
     useEffect(() => {
         console.log('Fetch marker');
@@ -27,10 +27,8 @@ function Map(props) {
 
     const loadHandler = map => {
         // Store a reference to the google map instance in state
-
-
-        const bounds = new window.google.maps.LatLngBounds();
-        map.fitBounds(bounds);
+        // const bounds = new window.google.maps.LatLngBounds();
+        // map.fitBounds(bounds);
         setMapRef(map);
         console.log('load map');
     }
@@ -53,7 +51,7 @@ function Map(props) {
             const mapProps = {
                 zoom: mapInfo.zoom
             }
-            //setZoom(mapInfo.zoom)
+            setZoom(mapInfo.zoom)
             console.log(mapProps);
         }
     }
@@ -69,16 +67,37 @@ function Map(props) {
         }
 
         setInfoOpen(true);
-        let mapProps = {
-            zoom: 13,
-            position: info.position
-        }
         if (mapInfo.zoom < 13) {
             console.log('zoom in');
+            const mapProps = {
+                zoom: 13,
+                position: {
+                    lat: props.position.lat,
+                    lng: props.position.lng
+                },
+                clickedPosition: {
+                    lat: props.clickedPosition.lat,
+                    lng: props.clickedPosition.lng
+                }
+            }
             props.setMapProps(mapProps);
         }
     };
-
+    const mapClickHandler = (latLng) => {
+        const mapProps = {
+            zoom: props.zoom,
+            position: {
+                lat: props.position.lat,
+                lng: props.position.lng
+            },
+            clickedPosition: {
+                lat: latLng.lat,
+                lng: latLng.lng
+            }
+        }
+        console.log(mapProps);
+        props.setMapProps(mapProps);
+    }
 
     let mark = <Spinner />;
 
@@ -101,14 +120,13 @@ function Map(props) {
                 <GoogleMap
                     id="marker-wuhan-coronavirus"
                     onLoad={loadHandler}
+                    onClick={e => mapClickHandler(e.latLng.toJSON())}
                     mapContainerStyle={mapContainerStyle}
                     center={{ lat: props.position.lat, lng: props.position.lng }}
-                    zoom={useZoom}
+                    zoom={props.zoom}
                     onZoomChanged={mapZoomHandler}
 
                 >
-                    {console.log(props.zoom, props.position)}
-                    {console.log(mapRef)}
                     {mark}
                     {
                         infoOpen && (
@@ -117,8 +135,8 @@ function Map(props) {
                                 onCloseClick={() => setInfoOpen(false)}
                             >
                                 <div>
-                                    <h3>{selectedPlace.id}</h3>
-                                    <div>{selectedPlace.content}</div>
+                                    <p>{selectedPlace.content}</p>
+                                    <div>備註:{selectedPlace.note}</div>
                                 </div>
                             </InfoWindow>
                         )
@@ -135,7 +153,8 @@ const mapStateToProps = state => {
         markers: state.markerReducer.markersInfo,
         loading: state.markerReducer.loading,
         zoom: state.mapPropsReducer.zoom,
-        position: state.mapPropsReducer.position
+        position: state.mapPropsReducer.position,
+        clickedPosition: state.mapPropsReducer.clickedPosition
     }
 }
 const mapDispatchToProps = dispatch => {

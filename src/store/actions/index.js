@@ -1,5 +1,6 @@
 export {
-    fetchMarker
+    fetchMarker,
+    updateMarkerInfo
 } from './marker'
 export {
     initMapProps,

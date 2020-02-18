@@ -77,7 +77,8 @@ function Map(props) {
         }
 
         // if you want to center the selected Marker
-        setCenter(info.position)
+        setCenter(info.position);
+
     };
 
     let map = <Spinner />;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { InputGroup, DropdownButton, Dropdown, Button, Form } from 'react-bootstrap'
+import { InputGroup, Col, Button, Form } from 'react-bootstrap'
 import Calendar from 'react-calendar'
 import { connect } from 'react-redux'
 import Hoc from '../../hoc/auxiliary'
@@ -7,13 +7,12 @@ import * as actions from '../../store/actions/index'
 
 const CaseUpdater = (props) => {
 
-
     const [isCalendar, setCalendar] = useState(false);
     const [updateDate, setUpdateDate] = useState(new Date());
-    const [updatePlace, setUpdatePlace] = useState('請選擇地點');
+    const [updatePlace, setUpdatePlace] = useState('基隆市');
     const [updataContent, setUpdateContent] = useState('');
     const [updateNote, setUpdateNote] = useState('');
-    const [updatePosition, setUpdatePosition] = useState({ lat: 23.600, lng: 120.832 });
+    const [updatePosition, setUpdatePosition] = useState({ lat: 23.6147681, lng: 120.8348167 });
     const [validated, setValidated] = useState(false);
 
     const showCalendar = () => {
@@ -46,253 +45,319 @@ const CaseUpdater = (props) => {
                     position: {
                         lat: 25.1193346,
                         lng: 121.6847455
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '基隆市');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "台北市":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 25.0288067,
                         lng: 121.486402
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '台北市');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "新北市":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 24.9875278,
                         lng: 121.3646036
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '新北市');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "桃園市":
                 mapProps = {
                     zoom: 11,
                     position: {
-                        lat: 25.0221456,
-                        lng: 121.1004783
+                        lat: 25.0201456,
+                        lng: 121.30047
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '桃園市');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "新竹市":
                 mapProps = {
                     zoom: 13,
                     position: {
                         lat: 24.7835529,
                         lng: 120.9316642
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '新竹市');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "新竹縣":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 24.6871974,
                         lng: 121.0321216
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '新竹縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "苗栗縣":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 24.5150534,
                         lng: 120.8016455
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '苗栗縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "台中市":
                 mapProps = {
                     zoom: 10,
                     position: {
                         lat: 24.2204731,
                         lng: 120.6756884
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '台中市');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "彰化縣":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 23.992187,
                         lng: 120.3230686
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '彰化縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "南投縣":
                 mapProps = {
                     zoom: 10,
                     position: {
                         lat: 23.8412218,
                         lng: 120.7023323
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '南投縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "雲林縣":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 23.6745746,
                         lng: 120.2945076
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '雲林縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "嘉義市":
                 mapProps = {
                     zoom: 13,
                     position: {
                         lat: 23.4790323,
                         lng: 120.414277
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '嘉義市');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "嘉義縣":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 23.425616,
                         lng: 120.397461
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '嘉義縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "台南市":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 23.1229948,
                         lng: 120.1312999
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '台南市');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "高雄市":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 22.6101871,
                         lng: 120.3666787
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '高雄市');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "屏東縣":
                 mapProps = {
                     zoom: 10,
                     position: {
                         lat: 22.3913338,
                         lng: 120.3482342
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '屏東縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "台東縣":
                 mapProps = {
                     zoom: 9,
                     position: {
                         lat: 22.7221328,
                         lng: 120.6097015
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '台東縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "花蓮縣":
                 mapProps = {
                     zoom: 9,
                     position: {
                         lat: 23.7344267,
                         lng: 120.8196701
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '花蓮縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "宜蘭縣":
                 mapProps = {
                     zoom: 9,
                     position: {
                         lat: 25.0374821,
                         lng: 121.8489693
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '宜蘭縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "澎湖縣":
                 mapProps = {
                     zoom: 10,
                     position: {
                         lat: 23.4815521,
                         lng: 119.2404985
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '澎湖縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "金門縣":
                 mapProps = {
                     zoom: 12,
                     position: {
                         lat: 24.4607121,
                         lng: 118.3559365
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '金門縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             case "連江縣":
                 mapProps = {
                     zoom: 11,
                     position: {
                         lat: 26.1627691,
                         lng: 120.0701337
+                    },
+                    clickedPosition: {
+                        lat: 25.1193346,
+                        lng: 121.6847455
                     }
                 }
-                console.log(mapProps, '連江縣');
-                props.setMapProps(mapProps);
-                return (setUpdatePosition({ lat: mapProps.position.lat, lng: mapProps.position.lng }))
+                break;
             default:
                 return console.log('default')
         };
+
+        console.log(mapProps, event.target.value);
+        return props.setMapProps(mapProps);
+    }
+    const contentSetter = (event) => {
+        setUpdateContent(event.target.value);
+    }
+    const noteSetter = (event) => {
+        setUpdateNote(event.target.value);
     }
     const UpdateHandler = (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
         if (form.checkValidity() === false) {
-            event.preventDefault();
             event.stopPropagation();
         }
-        setValidated(true);
+        else {
+            const forElementsArray = {
+                date: formatDate(updateDate),
+                position: {
+                    lat: updatePosition.lat,
+                    lng: updatePosition.lng
+                },
+                place: updatePlace,
+                content: updataContent,
+                note: updateNote
+            };
+            props.updateMarkerInfo(forElementsArray);
+            setValidated(true);
+        }
     }
 
     return (
@@ -303,15 +368,16 @@ const CaseUpdater = (props) => {
                 </InputGroup.Prepend>
                 {isCalendar && (<Calendar style={{ marginBottom: "10px" }} value={updateDate} onClickDay={date => dateSelect(date)}></Calendar>)}
 
-                <Form.Group controlId="exampleForm.Date" style={{ marginBottom: "10px" }} placeholder={formatDate(updateDate)}>
-                    <Form.Control required as="textarea" defaultValue={formatDate(updateDate)} onChange={e => { setUpdateContent(e) }} />
+                <Form.Group readOnly controlId="updateForm.Date" style={{ marginBottom: "10px" }} placeholder={formatDate(updateDate)}>
+                    <Form.Control required as="textarea" value={formatDate(updateDate)} />
                     <Form.Control.Feedback type="invalid">
                         Please provide a valid date(yyyy-mm-dd).
           </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group controlId="exampleForm.ControlSelect2">
+                <Form.Group controlId="updateForm.Place">
                     <Form.Label>請選擇確診地區</Form.Label>
-                    <Form.Control required as="select" onChange={e => placeSelect(e)} >
+                    <Form.Control as="select" onChange={e => placeSelect(e)} >
+                        <option>請選擇確診地區</option>
                         <option>基隆市</option>
                         <option>台北市</option>
                         <option>新北市</option>
@@ -336,17 +402,32 @@ const CaseUpdater = (props) => {
                         <option>連江縣</option>
                     </Form.Control>
                 </Form.Group>
-                <Form.Group controlId="exampleForm.ControlTextarea1">
+                <Form.Group controlId="updateForm.position">
+                    <Form style={{ marginBottom: "10px" }}>
+                        <Form.Row>
+                            <Col>
+                                <Form.Label>經度</Form.Label>
+                                <Form.Control placeholder="點選地圖調整經度" readOnly value={props.clickedPosition.lat} />
+                            </Col>
+                            <Col>
+                                <Form.Label>緯度</Form.Label>
+                                <Form.Control placeholder="點選地圖調整緯度" readOnly value={props.clickedPosition.lat} />
+                            </Col>
+                        </Form.Row>
+                    </Form>
+                </Form.Group>
+
+                <Form.Group controlId="updateForm.Content">
                     <Form.Label>確診詳細內容</Form.Label>
-                    <Form.Control required as="textarea" rows="3" placeholder="ex:中部社區感染" onChange={value => { setUpdateContent(value) }} />
+                    <Form.Control required as="textarea" rows="3" placeholder="ex:中部社區感染" maxLength='45' onChange={e => { contentSetter(e) }} />
                     <Form.Control.Feedback type="invalid">
                         請輸入案例詳細內容
           </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group controlId="exampleForm.ControlTextarea2">
+                <Form.Group controlId="updateForm.Note">
                     <Form.Label>備註</Form.Label>
-                    <Form.Control as="textarea" rows="2" placeholder="ex:已痊癒" onChange={value => { setUpdateNote(value) }} />
+                    <Form.Control as="textarea" rows="2" placeholder="ex:已痊癒" maxLength='27' onChange={e => { noteSetter(e) }} />
                 </Form.Group>
                 <InputGroup.Append>
                     <Button style={{ marginBottom: "10px" }} variant="outline-primary" type="submit">增加病例</Button>
@@ -360,13 +441,18 @@ const CaseUpdater = (props) => {
 }
 const mapStateToProps = state => {
     return {
+        markers: state.markerReducer.markersInfo,
+        loading: state.markerReducer.loading,
         zoom: state.mapPropsReducer.zoom,
-        position: state.mapPropsReducer.position
+        position: state.mapPropsReducer.position,
+        clickedPosition: state.mapPropsReducer.clickedPosition
+
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        setMapProps: (mapProps) => dispatch(actions.setMapProps(mapProps))
+        setMapProps: (mapProps) => dispatch(actions.setMapProps(mapProps)),
+        updateMarkerInfo: (markerInfo) => dispatch(actions.updateMarkerInfo(markerInfo))
     }
 }
 

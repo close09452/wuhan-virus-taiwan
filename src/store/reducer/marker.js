@@ -26,6 +26,26 @@ const markerFail = (state, action) => {
     }
 }
 
+const updateStart = (state, action) => {
+    return {
+        ...state,
+        loading: true
+    }
+}
+const updateSuccess = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        markersInfo: state.markersInfo.concat(state)
+    }
+}
+
+const updateFail = (state, action) => {
+    return {
+        ...state,
+        loading: false
+    }
+}
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -35,6 +55,12 @@ const reducer = (state = initialState, action) => {
             return markerSuccess(state, action);
         case actionTypes.FETCH_MARKERSINFO_FAIL:
             return markerFail(state, action);
+        case actionTypes.UPDATE_MARKERSINFO_START:
+            return updateStart(state, action);
+        case actionTypes.UPDATE_MARKERSINFO_SUCCESS:
+            return updateSuccess(state, action);
+        case actionTypes.UPDATE_MARKERSINFO_FAIL:
+            return updateFail(state, action)
         default:
             return state;
     }
