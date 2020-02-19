@@ -33,11 +33,7 @@ const updateStart = (state, action) => {
     }
 }
 const updateSuccess = (state, action) => {
-    return {
-        ...state,
-        loading: false,
-        markersInfo: state.markersInfo.concat(state)
-    }
+    window.location.reload();
 }
 
 const updateFail = (state, action) => {

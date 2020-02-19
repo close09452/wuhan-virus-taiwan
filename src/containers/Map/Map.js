@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect, useContext } from 'react'
-import { GoogleMap, LoadScript, useGoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
+import { GoogleMap, LoadScript, Circle, Marker, InfoWindow } from '@react-google-maps/api'
 import Aux from '../../hoc/auxiliary'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
@@ -7,18 +7,31 @@ import Spinner from '../../components/Spinner/Spinner'
 import styled from './Map.module.css'
 
 
+// const options = {
+//     imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
+// };
 const options = {
-    imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
-};
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35,
+    clickable: false,
+    draggable: false,
+    editable: false,
+    visible: true,
+    radius: 1000,
+    zIndex: 1
+}
 
 function Map(props) {
 
     const [mapRef, setMapRef] = useState(null);
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [markerMap, setMarkerMap] = useState({});
-    const [clickedLatLng, setClickedLatLng] = useState(null);
     const [infoOpen, setInfoOpen] = useState(false);
-    const [useZoom, setZoom] = useState(8)
+    const [useZoom, setZoom] = useState(8);
+
 
     useEffect(() => {
         console.log('Fetch marker');
@@ -36,7 +49,7 @@ function Map(props) {
 
     const mapContainerStyle = {
         height: "100vh",
-        width: "70vw"
+        width: "65vw"
     };
 
     // We have to create a mapping of our infos to actual Marker objects
@@ -95,7 +108,6 @@ function Map(props) {
                 lng: latLng.lng
             }
         }
-        console.log(mapProps);
         props.setMapProps(mapProps);
     }
 
@@ -127,6 +139,10 @@ function Map(props) {
                     onZoomChanged={mapZoomHandler}
 
                 >
+                    <Circle
+                        center={{ lat: props.clickedPosition.lat, lng: props.clickedPosition.lng }}
+                        options={options}
+                    />
                     {mark}
                     {
                         infoOpen && (
