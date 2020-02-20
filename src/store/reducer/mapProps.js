@@ -19,7 +19,6 @@ const initMapProps = (state, action) => {
     }
 }
 const setMapProps = (state, action) => {
-    console.log(action);
     return {
         ...state,
         zoom: action.mapProps.zoom,

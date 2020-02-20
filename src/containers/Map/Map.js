@@ -1,6 +1,5 @@
-import React, { useState, Fragment, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GoogleMap, LoadScript, Circle, Marker, InfoWindow } from '@react-google-maps/api'
-import Aux from '../../hoc/auxiliary'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 import Spinner from '../../components/Spinner/Spinner'
@@ -30,7 +29,7 @@ function Map(props) {
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [markerMap, setMarkerMap] = useState({});
     const [infoOpen, setInfoOpen] = useState(false);
-    const [useZoom, setZoom] = useState(8);
+    const [useZoom, setZoom] = useState(false);
 
 
     useEffect(() => {
@@ -46,7 +45,6 @@ function Map(props) {
         console.log('load map');
     }
 
-
     const mapContainerStyle = {
         height: "100vh",
         width: "65vw"
@@ -61,17 +59,14 @@ function Map(props) {
     const mapZoomHandler = () => {
         if (props.marker !== []) {
             const mapInfo = { ...mapRef };
-            const mapProps = {
-                zoom: mapInfo.zoom
-            }
-            setZoom(mapInfo.zoom)
-            console.log(mapProps);
+            console.log(mapInfo.zoom);
+            setZoom(mapInfo.zoom);
         }
     }
 
     const markerClickHandler = (event, info) => {
         const mapInfo = { ...mapRef };
-        console.log(mapInfo);
+        let mapProps = {}
         // Remember which info was clicked
         setSelectedPlace(info);
         // Required so clicking a 2nd marker works as expected
@@ -82,19 +77,32 @@ function Map(props) {
         setInfoOpen(true);
         if (mapInfo.zoom < 13) {
             console.log('zoom in');
-            const mapProps = {
+            mapProps = {
                 zoom: 13,
                 position: {
-                    lat: props.position.lat,
-                    lng: props.position.lng
+                    lat: info.position.lat,
+                    lng: info.position.lng
                 },
                 clickedPosition: {
-                    lat: props.clickedPosition.lat,
-                    lng: props.clickedPosition.lng
+                    lat: props.position.lat,
+                    lng: props.position.lng
                 }
             }
-            props.setMapProps(mapProps);
         }
+        else {
+            mapProps = {
+                zoom: useZoom,
+                position: {
+                    lat: info.position.lat,
+                    lng: info.position.lng
+                },
+                clickedPosition: {
+                    lat: props.position.lat,
+                    lng: props.position.lng
+                }
+            }
+        }
+        props.setMapProps(mapProps);
     };
     const mapClickHandler = (latLng) => {
         const mapProps = {
@@ -129,6 +137,7 @@ function Map(props) {
             <LoadScript
                 id="script-loader"
                 googleMapsApiKey="AIzaSyDxsc0P3yUrLchOaaxLWrgK8YyR78zsED0">
+
                 <GoogleMap
                     id="marker-wuhan-coronavirus"
                     onLoad={loadHandler}
@@ -137,7 +146,6 @@ function Map(props) {
                     center={{ lat: props.position.lat, lng: props.position.lng }}
                     zoom={props.zoom}
                     onZoomChanged={mapZoomHandler}
-
                 >
                     <Circle
                         center={{ lat: props.clickedPosition.lat, lng: props.clickedPosition.lng }}

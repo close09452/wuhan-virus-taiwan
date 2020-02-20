@@ -71,7 +71,6 @@ export const updateMarkerInfo_Start = () => {
 
 export const updateMarkerInfo = (updateData) => {
     return dispatch => {
-        console.log(updateData);
         dispatch(updateMarkerInfo_Start);
         axios.post('/markersInfo.json', updateData)
             .then(res => {

@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "wuhan-coronavirus-taiwan": "wuhan-virus-taiwan",
+    "default": "wuhan-virus-taiwan"
+  }
+}

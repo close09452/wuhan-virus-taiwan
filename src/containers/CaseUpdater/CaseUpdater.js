@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { InputGroup, Col, Button, Form } from 'react-bootstrap'
 import Calendar from 'react-calendar'
 import { connect } from 'react-redux'
-import Hoc from '../../hoc/auxiliary'
 import * as actions from '../../store/actions/index'
 
 const CaseUpdater = (props) => {
@@ -341,7 +340,6 @@ const CaseUpdater = (props) => {
                 return console.log('default')
         };
 
-        console.log(mapProps, event.target.value);
         return props.setMapProps(mapProps);
     }
     const contentSetter = (event) => {
@@ -375,17 +373,30 @@ const CaseUpdater = (props) => {
     return (
         <div style={{ float: 'left', margin: "20px" }} >
             <Form noValidate validated={validated} onSubmit={UpdateHandler}>
+
                 <InputGroup.Prepend style={{ marginBottom: "10px" }} >
                     <Button variant="outline-primary" onClick={showCalendar}>確診日期</Button>
                 </InputGroup.Prepend>
-                {isCalendar && (<Calendar style={{ marginBottom: "10px" }} value={updateDate} onClickDay={date => dateSelect(date)}></Calendar>)}
 
-                <Form.Group readOnly controlId="updateForm.Date" style={{ marginBottom: "10px" }} placeholder={formatDate(updateDate)}>
-                    <Form.Control required as="textarea" value={formatDate(updateDate)} />
+                {
+                    isCalendar &&
+                    (<Calendar style={{ marginBottom: "10px" }} value={updateDate} onClickDay={date => dateSelect(date)}></Calendar>)
+                }
+
+                <Form.Group
+                    readOnly
+                    controlId="updateForm.Date"
+                    style={{ marginBottom: "10px" }}
+                    placeholder={formatDate(updateDate)}>
+                    <Form.Control
+                        required as="textarea"
+                        value={formatDate(updateDate)}
+                        readOnly />
                     <Form.Control.Feedback type="invalid">
                         Please provide a valid date(yyyy-mm-dd).
           </Form.Control.Feedback>
                 </Form.Group>
+
                 <Form.Group controlId="updateForm.Place">
                     <Form.Label>請選擇確診地區</Form.Label>
                     <Form.Control as="select" onChange={e => placeSelect(e)} >
@@ -414,25 +425,36 @@ const CaseUpdater = (props) => {
                         <option>連江縣</option>
                     </Form.Control>
                 </Form.Group>
-                <Form.Group controlId="updateForm.position">
-                    <Form style={{ marginBottom: "10px" }}>
-                        <Form.Row>
-                            <Col>
-                                <Form.Label>經度</Form.Label>
-                                <Form.Control readOnly value={props.clickedPosition.lat} />
-                            </Col>
-                            <Col>
-                                <Form.Label>緯度</Form.Label>
-                                <Form.Control readOnly value={props.clickedPosition.lng} />
-                            </Col>
-                        </Form.Row>
-                        <Form.Label style={{ color: 'Red' }}>點選地圖調整經緯度</Form.Label>
-                    </Form>
+
+                <Form.Group>
+                    <Form.Row>
+                        <Col>
+                            <Form.Label>經度</Form.Label>
+                            <Form.Control
+                                id="updateForm.lat"
+                                readOnly
+                                value={props.clickedPosition.lat} />
+                        </Col>
+                        <Col>
+                            <Form.Label>緯度</Form.Label>
+                            <Form.Control
+                                id="updateForm.lng"
+                                readOnly
+                                value={props.clickedPosition.lng} />
+                        </Col>
+                    </Form.Row>
+                    <Form.Label style={{ color: 'Red' }}>點選地圖調整經緯度</Form.Label>
                 </Form.Group>
 
                 <Form.Group controlId="updateForm.Content">
                     <Form.Label>確診詳細內容</Form.Label>
-                    <Form.Control required as="textarea" rows="3" placeholder="ex:(台中61歲)白牌計程車司機，無出國史" maxLength='60' onChange={e => { contentSetter(e) }} />
+                    <Form.Control
+                        required
+                        as="textarea"
+                        rows="3"
+                        placeholder="ex:(台中61歲)白牌計程車司機，無出國史"
+                        maxLength='60'
+                        onChange={e => { contentSetter(e) }} />
                     <Form.Control.Feedback type="invalid">
                         請輸入案例詳細內容
           </Form.Control.Feedback>
@@ -440,11 +462,20 @@ const CaseUpdater = (props) => {
 
                 <Form.Group controlId="updateForm.Note">
                     <Form.Label>備註</Form.Label>
-                    <Form.Control as="textarea" rows="2" placeholder="ex:{第十例}已痊癒" maxLength='30' onChange={e => { noteSetter(e) }} />
+                    <Form.Control
+                        as="textarea"
+                        rows="2"
+                        placeholder="ex:{第十例}已痊癒"
+                        maxLength='30'
+                        onChange={e => { noteSetter(e) }} />
                 </Form.Group>
+
                 <InputGroup.Append>
-                    <Button style={{ marginBottom: "10px" }} variant="outline-primary" type="submit">增加病例</Button>
+                    <Button
+                        style={{ marginBottom: "10px" }} variant="outline-primary"
+                        type="submit">增加病例</Button>
                 </InputGroup.Append>
+
             </Form>
         </div>
 

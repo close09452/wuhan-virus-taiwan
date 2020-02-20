@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from './App.module.css';
-import VirusInfoMap from './containers/VirusInfoMap/VirusInfoMap';
+import Map from './containers/Map/Map';
 import CaseUpdater from './containers/CaseUpdater/CaseUpdater'
 
 function App() {
   return (
-
     <div className={styled.app}>
-      <VirusInfoMap></VirusInfoMap>
+      <Map></Map>
       <CaseUpdater></CaseUpdater>
     </div>
   );

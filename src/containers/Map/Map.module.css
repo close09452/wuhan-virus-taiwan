@@ -1,6 +1,16 @@
 .map{
-    height: 100vh; /* Magic here */
     display: flex;
     align-items: center;
     float: left;
   }
+.mapSize{
+    width: 65vw;
+    height: 100vh;
+}
+
+@media (min-width:400px) and (min-height:700px){
+    .mapSize{
+        width: 100vw;
+        height: 100vh;
+    }
+}
