@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { GoogleMap, LoadScript, Circle, Marker, InfoWindow } from '@react-google-maps/api'
+import { GoogleMap, MarkerClusterer, LoadScript, Circle, Marker, InfoWindow } from '@react-google-maps/api'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
 import Spinner from '../../components/Spinner/Spinner'
@@ -123,14 +123,21 @@ function Map(props) {
 
     if (props.marker !== []) {
         const markers = props.markers;
-        mark = markers.map(info => (
-            <Marker
-                key={info.id}
-                onLoad={marker => markerLoadHandler(marker, info)}
-                position={info.position}
-                onClick={marker => markerClickHandler(marker, info)}
-            />
-        ))
+        mark =
+            <MarkerClusterer
+                options={options}
+            >
+                {
+                    (clusterer) => markers.map(info => (
+                        <Marker
+                            key={info.id}
+                            onLoad={marker => markerLoadHandler(marker, info)}
+                            position={info.position}
+                            onClick={marker => markerClickHandler(marker, info)}
+                            clusterer={clusterer}
+                        />
+                    ))}
+            </MarkerClusterer>
     }
     return (
         <div className={styled.map}>
