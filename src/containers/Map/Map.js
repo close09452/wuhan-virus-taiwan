@@ -5,10 +5,6 @@ import * as actions from '../../store/actions/index'
 import Spinner from '../../components/Spinner/Spinner'
 import styled from './Map.module.css'
 
-
-// const options = {
-//     imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
-// };
 const options = {
     strokeColor: '#FF0000',
     strokeOpacity: 0.8,
