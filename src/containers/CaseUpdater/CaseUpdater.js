@@ -363,7 +363,8 @@ const CaseUpdater = (props) => {
                 },
                 place: updatePlace,
                 content: updataContent,
-                note: updateNote
+                note: updateNote,
+                case: props.markers.length + 1
             };
             props.updateMarkerInfo(forElementsArray);
             setValidated(true);
@@ -453,7 +454,7 @@ const CaseUpdater = (props) => {
                         as="textarea"
                         rows="3"
                         placeholder="ex:(台中61歲)白牌計程車司機，無出國史"
-                        maxLength='60'
+                        maxLength='80'
                         onChange={e => { contentSetter(e) }} />
                     <Form.Control.Feedback type="invalid">
                         請輸入案例詳細內容
@@ -465,7 +466,7 @@ const CaseUpdater = (props) => {
                     <Form.Control
                         as="textarea"
                         rows="2"
-                        placeholder="ex:{第十例}已痊癒"
+                        placeholder="ex:已痊癒"
                         maxLength='30'
                         onChange={e => { noteSetter(e) }} />
                 </Form.Group>
@@ -490,6 +491,7 @@ const mapStateToProps = state => {
         zoom: state.mapPropsReducer.zoom,
         position: state.mapPropsReducer.position,
         clickedPosition: state.mapPropsReducer.clickedPosition
+
     }
 }
 const mapDispatchToProps = dispatch => {

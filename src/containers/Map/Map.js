@@ -164,6 +164,7 @@ function Map(props) {
                                 <div>
                                     <p>{selectedPlace.content}</p>
                                     <div>備註:{selectedPlace.note}</div>
+                                    <div>案例:第{selectedPlace.case}例</div>
                                 </div>
                             </InfoWindow>
                         )
