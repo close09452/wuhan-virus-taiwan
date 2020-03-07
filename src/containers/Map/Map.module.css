@@ -2,15 +2,19 @@
     display: flex;
     align-items: center;
     float: left;
+    z-index: 1;
+    position: relative;
   }
-.mapSize{
-    width: 65vw;
-    height: 100vh;
-}
-
-@media (min-width:400px) and (min-height:700px){
-    .mapSize{
-        width: 100vw;
-        height: 100vh;
-    }
+  .Button{
+   display: none;
+  }
+@media (max-width:600px){
+  .Button{
+    display:block;
+    position: absolute;
+    margin: auto;
+    z-index: 100;
+    bottom:0;
+    left:0;
+  }
 }

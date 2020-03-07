@@ -1,0 +1,12 @@
+.Form{
+    float:left;
+    margin:20px; 
+    position: relative;
+    background-color: white;
+}
+
+@media (max-width:600px){
+    .Form{
+        display:none;
+    }
+}

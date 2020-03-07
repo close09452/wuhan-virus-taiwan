@@ -1,5 +1,13 @@
 .app{
+  position:relative;
   margin: 0;
   padding: 0;
-  background-color:lightgrey;
+}
+@media (max-width:600px){
+    .Button{
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+    }
 }

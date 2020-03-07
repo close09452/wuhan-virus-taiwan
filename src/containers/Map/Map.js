@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { GoogleMap, MarkerClusterer, LoadScript, Circle, Marker, InfoWindow } from '@react-google-maps/api'
 import { connect } from 'react-redux'
+import { Button } from 'react-bootstrap'
 import * as actions from '../../store/actions/index'
-import Spinner from '../../components/Spinner/Spinner'
+import Spinner from '../../components/spinner/spinner'
 import styled from './Map.module.css'
 
 const options = {
@@ -29,24 +30,45 @@ function Map(props) {
 
 
     useEffect(() => {
-        console.log('Fetch marker');
         props.onFetchMarkers();
     }, []);
 
-    const loadHandler = map => {
-        // Store a reference to the google map instance in state
-        // const bounds = new window.google.maps.LatLngBounds();
-        // map.fitBounds(bounds);
-        setMapRef(map);
-        console.log('load map');
+
+    let mark = <Spinner />;
+
+    if (props.marker !== []) {
+        const markers = props.markers;
+        mark =
+            <MarkerClusterer
+                options={options}
+            >
+                {
+                    (clusterer) => markers.map(info => (
+                        <Marker
+                            key={info.id}
+                            onLoad={marker => markerLoadHandler(marker, info)}
+                            position={info.position}
+                            onClick={marker => markerClickHandler(marker, info)}
+                            clusterer={clusterer}
+                        />
+                    ))
+                }
+            </MarkerClusterer>
     }
 
-    const mapContainerStyle = {
+    const loadHandler = map => {
+        setMapRef(map);
+    }
+
+    const MaxMapContainerStyle = {
+        height: "100vh",
+        width: "100vw"
+    };
+    const MinMapContainerStyle = {
         height: "100vh",
         width: "65vw"
     };
 
-    // We have to create a mapping of our infos to actual Marker objects
     const markerLoadHandler = (marker, info) => {
         return setMarkerMap(prevState => {
             return { ...prevState, [info.id]: marker };
@@ -55,24 +77,20 @@ function Map(props) {
     const mapZoomHandler = () => {
         if (props.marker !== []) {
             const mapInfo = { ...mapRef };
-            console.log(mapInfo.zoom);
             setZoom(mapInfo.zoom);
         }
     }
-
     const markerClickHandler = (event, info) => {
         const mapInfo = { ...mapRef };
         let mapProps = {}
-        // Remember which info was clicked
         setSelectedPlace(info);
-        // Required so clicking a 2nd marker works as expected
+
         if (infoOpen) {
             setInfoOpen(false);
         }
 
         setInfoOpen(true);
         if (mapInfo.zoom < 13) {
-            console.log('zoom in');
             mapProps = {
                 zoom: 13,
                 position: {
@@ -115,37 +133,18 @@ function Map(props) {
         props.setMapProps(mapProps);
     }
 
-    let mark = <Spinner />;
 
-    if (props.marker !== []) {
-        const markers = props.markers;
-        mark =
-            <MarkerClusterer
-                options={options}
-            >
-                {
-                    (clusterer) => markers.map(info => (
-                        <Marker
-                            key={info.id}
-                            onLoad={marker => markerLoadHandler(marker, info)}
-                            position={info.position}
-                            onClick={marker => markerClickHandler(marker, info)}
-                            clusterer={clusterer}
-                        />
-                    ))}
-            </MarkerClusterer>
-    }
+
     return (
         <div className={styled.map}>
             <LoadScript
                 id="script-loader"
                 googleMapsApiKey="AIzaSyDxsc0P3yUrLchOaaxLWrgK8YyR78zsED0">
-
                 <GoogleMap
                     id="marker-wuhan-coronavirus"
                     onLoad={loadHandler}
                     onClick={e => mapClickHandler(e.latLng.toJSON())}
-                    mapContainerStyle={mapContainerStyle}
+                    mapContainerStyle={window.innerWidth < 1200 ? MaxMapContainerStyle : MinMapContainerStyle}
                     center={{ lat: props.position.lat, lng: props.position.lng }}
                     zoom={props.zoom}
                     onZoomChanged={mapZoomHandler}
@@ -169,6 +168,7 @@ function Map(props) {
                             </InfoWindow>
                         )
                     }
+                    <Button className={styled.Button} variant="danger" onClick={props.clicked}> 新增病例</Button>
                 </GoogleMap>
             </LoadScript>
         </div>

@@ -1,0 +1,29 @@
+.Form{
+    margin:0; 
+    padding:20px; 
+    position: absolute;
+    width: 100vw;
+    height:100vh;
+    background-color: white;
+}
+
+.FormOpen{
+    z-index: 5;
+    animation: openForm 0.5s ease-in-out forwards;
+}
+
+.FormClose{
+    display: none;
+}
+
+@keyframes openForm{
+    0%{
+        transform: translateY(90%);
+    }
+    75%{
+        transform: translateY(-10%);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}

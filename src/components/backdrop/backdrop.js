@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import * as actions from '../../store/actions/index'
-import DateForm from '../../components/UI/form/dateForm/dateForm'
-import PlaceSelect from '../../components/UI/form/placeSelecter/placeSelecter'
-import PositionForm from '../../components/UI/form/positionForm/positionForm'
-import InputForm from '../../components/UI/form/inputForm/InputForm'
-import styled from './CaseUpdater.module.css'
+import DateForm from '../UI/form/dateForm/dateForm'
+import PlaceSelect from '../UI/form/placeSelecter/placeSelecter'
+import PositionForm from '../UI/form/positionForm/positionForm'
+import InputForm from '../UI/form/inputForm/InputForm'
+import styled from './backdrop.css'
 
 const citys = [
     "請選擇確診地區", "基隆市", "台北市",
@@ -402,8 +402,11 @@ const CaseUpdater = (props) => {
             setValidated(true);
         }
     }
+    const cssClasses = ['Form',
+        props.show ? 'FormOpen' : 'FormClose']
     return (
-        <div className={styled.Form} >
+        <div className={cssClasses.join(' ')} >
+            {console.log(cssClasses.join(' '))}
             <Form noValidate validated={validated} onSubmit={UpdateChangeHandler}>
                 <DateForm
                     clicked={calendarSetter}
@@ -445,8 +448,12 @@ const CaseUpdater = (props) => {
                     style={{ marginBottom: "10px" }}
                     variant="primary"
                     type="submit"
-                >送出病歷</Button>
-
+                >增加病例</Button>
+                <Button
+                    style={{ marginBottom: "10px" }}
+                    variant="danger"
+                    onClick={props.canceled}
+                >取消</Button>
             </Form>
         </div>
 
