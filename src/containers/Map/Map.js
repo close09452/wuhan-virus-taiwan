@@ -168,7 +168,7 @@ function Map(props) {
                             </InfoWindow>
                         )
                     }
-                    <Button className={styled.Button} variant="danger" onClick={props.clicked}> 新增病例</Button>
+                    <Button className={styled.Button} variant="danger" onClick={props.showBackdrop}> 新增病例</Button>
                 </GoogleMap>
             </LoadScript>
         </div>

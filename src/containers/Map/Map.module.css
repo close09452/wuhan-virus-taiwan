@@ -5,12 +5,8 @@
     z-index: 1;
     position: relative;
   }
-  .Button{
-   display: none;
-  }
 @media (max-width:600px){
   .Button{
-    display:block;
     position: absolute;
     margin: auto;
     z-index: 100;

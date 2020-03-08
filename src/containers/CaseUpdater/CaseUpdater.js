@@ -399,8 +399,9 @@ const CaseUpdater = (props) => {
                 case: props.markers.length + 1
             };
             props.updateMarkerInfo(forElementsArray);
-            setValidated(true);
         }
+
+        setValidated(true);
     }
     return (
         <div className={styled.Form} >
@@ -446,7 +447,6 @@ const CaseUpdater = (props) => {
                     variant="primary"
                     type="submit"
                 >送出病歷</Button>
-
             </Form>
         </div>
 
